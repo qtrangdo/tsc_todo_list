@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { string } from 'prop-types';
 
 interface IAppState {
   currentTask: string,
@@ -30,6 +31,12 @@ class App extends React.Component<{}, IAppState> {
     this.setState({ currentTask })
   }
 
+  renderTasks() {
+    return this.state.tasks.map((task: string, index: number) => (
+      <div key={index}>{task}</div>
+    ))
+  }
+
   render() {
     return (
       <div>
@@ -45,6 +52,7 @@ class App extends React.Component<{}, IAppState> {
           />
           <button type="submit">Add Tasks</button>
         </form>
+        <section>{this.renderTasks()}</section>
       </div>
     )
   }
