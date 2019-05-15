@@ -3,6 +3,9 @@ const path = require("path");
 // also add second rule & dev-tool
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+// use this plugin to load sass style
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 module.exports = {
   entry: './src/index.tsx',
   output: {
@@ -19,12 +22,29 @@ module.exports = {
         enforce: "pre",
         test: /\.js$/,
         loader: 'source-map-loader'
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: './src/styles',
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          "css-loader",
+          "sass-loader"
+        ]
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html"
+    }),
+    new MiniCssExtractPlugin({
+      filename:"style.css"
     })
   ],
   devtool: "source-map",
