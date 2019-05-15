@@ -1,4 +1,7 @@
 const path = require("path");
+// using the plugin to not have to include bundle.js in html file
+// also add second rule & dev-tool
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: './src/index.tsx',
@@ -11,8 +14,18 @@ module.exports = {
       {
         test: /\.tsx?$/,
         loader: 'awesome-typescript-loader'
+      },
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        loader: 'source-map-loader'
       }
     ]
   },
-  plugins: []
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./index.html"
+    })
+  ],
+  devtool: "source-map"
 }
