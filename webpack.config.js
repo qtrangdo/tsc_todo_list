@@ -27,5 +27,8 @@ module.exports = {
       template: "./index.html"
     })
   ],
-  devtool: "source-map"
+  devtool: "source-map",
+  resolve: {
+    extensions: ['.js', '.tsx', '.ts']
+  }
 }
