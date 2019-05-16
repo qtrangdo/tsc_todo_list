@@ -3,7 +3,13 @@ import { string } from 'prop-types';
 
 interface IAppState {
   currentTask: string,
-  tasks: Array<string>
+  tasks: Array<ITasks>
+}
+
+interface ITasks {
+  id: number,
+  value: string,
+  completed: boolean
 }
 
 class App extends React.Component<{}, IAppState> {
@@ -20,20 +26,26 @@ class App extends React.Component<{}, IAppState> {
     this.setState({
       tasks: [
         ...this.state.tasks,
-        this.state.currentTask
+        {
+          id: this._thisInMilliseconds(),
+          value: this.state.currentTask,
+          completed: false
+        }
       ],
       currentTask : ''
     })
   }
 
   public onChange(event: React.FormEvent<HTMLInputElement>):void {
-    const currentTask = event.currentTarget.value;
+    const currentTask: string = event.currentTarget.value;
     this.setState({ currentTask })
   }
 
   public renderTasks(): JSX.Element[] {
-    return this.state.tasks.map((task: string, index: number) => (
-      <div key={index}>{task}</div>
+    return this.state.tasks.map((task: ITasks) => (
+      <div key={task.id}>
+        <span>{task.value}</span>
+      </div>
     ))
   }
 
@@ -55,6 +67,11 @@ class App extends React.Component<{}, IAppState> {
         <section>{this.renderTasks()}</section>
       </div>
     )
+  }
+
+  private _thisInMilliseconds():number {
+    const date: Date = new Date();
+    return date.getTime();
   }
 }
 
