@@ -47,11 +47,19 @@ class App extends React.Component<{}, IAppState> {
     this.setState({ tasks: newTasks })
   }
 
+  public toggleDone(index:number):void {
+    let task: ITasks[] = this.state.tasks.splice(index, 1);
+    task[0].completed = !task[0].completed;
+    const currentTasks: ITasks[] = [...this.state.tasks, ...task];
+    this.setState({ tasks: currentTasks })
+  }
+
   public renderTasks(): JSX.Element[] {
     return this.state.tasks.map((task: ITasks, index: number) => (
       <div key={task.id}>
         <span>{task.value}</span>
-        <button onClick={this.deleteTask.bind(this,index)}>Completed</button>
+        <button onClick={this.deleteTask.bind(this,index)}>Delete</button>
+        <button onClick={this.toggleDone.bind(this,index)}>Done</button>
       </div>
     ))
   }
