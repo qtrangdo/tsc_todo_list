@@ -56,10 +56,10 @@ class App extends React.Component<{}, IAppState> {
 
   public renderTasks(): JSX.Element[] {
     return this.state.tasks.map((task: ITasks, index: number) => (
-      <div key={task.id}>
-        <span>{task.value}</span>
+      <div key={task.id} className="tdl-task">
+        <span className={task.completed ? "is-completed" : ""}>{task.value}</span>
         <button onClick={this.deleteTask.bind(this,index)}>Delete</button>
-        <button onClick={this.toggleDone.bind(this,index)}>Done</button>
+        <button onClick={this.toggleDone.bind(this,index)}>{task.completed ? "Undo" : "Done"}</button>
       </div>
     ))
   }
@@ -72,6 +72,7 @@ class App extends React.Component<{}, IAppState> {
           onSubmit={this.handleSubmit.bind(this)}
           >
           <input 
+            className="tdl-input"
             type="text" 
             placeholder="Type new Task"
             value={this.state.currentTask}
