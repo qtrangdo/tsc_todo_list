@@ -41,10 +41,17 @@ class App extends React.Component<{}, IAppState> {
     this.setState({ currentTask })
   }
 
+  public deleteTask(index: number):void {
+    const newTasks: Array<ITasks> = this.state.tasks;
+    newTasks.splice(index, 1);
+    this.setState({ tasks: newTasks })
+  }
+
   public renderTasks(): JSX.Element[] {
-    return this.state.tasks.map((task: ITasks) => (
+    return this.state.tasks.map((task: ITasks, index: number) => (
       <div key={task.id}>
         <span>{task.value}</span>
+        <button onClick={this.deleteTask.bind(this,index)}>Completed</button>
       </div>
     ))
   }
